@@ -2,7 +2,7 @@
 
 Image Converter is a free and secure image converter that allows you to convert images to any format.
 
-[./image-converter.png](./image-converter.png)
+![image-converter](./image-converter.png)
 
 ## Features
 
