@@ -1,38 +1,23 @@
-# sv
+# Image Converter
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+Image Converter is a free and secure image converter that allows you to convert images to any format.
 
-## Creating a project
+[./image-converter.png](./image-converter.png)
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Features
 
-```bash
-# create a new project in the current directory
-npx sv create
+- Convert images to any format
+- Free and secure
+- Fast and reliable
 
-# create a new project in my-app
-npx sv create my-app
-```
+### How to use
 
-## Developing
+1. Click on the "Choose Files" button
+2. Select the images you want to convert
+3. Click on the "Convert" button
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+#### Tech Stack
 
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+- SvelteKit
+- TailwindCSS
+- Vercel
