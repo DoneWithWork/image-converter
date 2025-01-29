@@ -3,10 +3,45 @@
 	import Header from './Header.svelte';
 	import { Settings, XCircle } from 'lucide-svelte';
 	import byteSize from 'byte-size';
-	import { filesStore, removeFile } from '$lib/stores/fileStore.js';
+	import { filesStore, removeFile, updateOutputFormat } from '$lib/stores/fileStore.js';
 	import Cta from '$lib/components/CTA.svelte';
 	import InputForm from '$lib/components/inputForm.svelte';
-	import { getPossibleConversions } from '$lib/config/config';
+	import { returnOutputFormats, type OutputFileFormat } from '$lib/config/config';
+	import { goto } from '$app/navigation';
+
+	export const submitFiles = async () => {
+		const formData = new FormData();
+		const metadata: Array<{
+			id: string;
+			outputFormat: OutputFileFormat;
+		}> = [];
+
+		// Populate FormData and metadata
+		$filesStore.forEach((file) => {
+			formData.append('files', file.fileObject); // Append actual File objects
+			metadata.push({
+				id: file.id,
+				outputFormat: file.outputFormat
+			});
+		});
+
+		// Add metadata as JSON string
+		formData.append('metadata', JSON.stringify(metadata));
+
+		try {
+			const response = await fetch('/api/convert', {
+				method: 'POST',
+				body: formData // Let browser set Content-Type with boundary
+			});
+
+			if (!response.ok) throw new Error('Conversion failed');
+
+			await goto('/download/123');
+		} catch (error) {
+			console.error('Upload error:', error);
+			throw error; // Re-throw for error handling in components
+		}
+	};
 </script>
 
 <div class=" mt-10 w-full space-y-3 bg-white text-center">
@@ -32,10 +67,16 @@
 							<div class="flex flex-row items-center gap-4">
 								<p class="text-base font-semibold text-gray-500">Output:</p>
 								<select
+									onchange={(event) => {
+										const target = event.target as HTMLSelectElement;
+										if (target) {
+											updateOutputFormat(file.id, target.value as OutputFileFormat);
+										}
+									}}
 									class="daisy-select daisy-select-primary daisy-select-sm mr-5 w-full max-w-xs"
 								>
-									{#each getPossibleConversions(file.type) as type}
-										<option value={type}>{type}</option>
+									{#each returnOutputFormats(file.format) as format}
+										<option value={format}>{format}</option>
 									{/each}
 								</select>
 							</div>
@@ -62,6 +103,7 @@
 					</div>
 				{/each}
 			</div>
+			<button class="self-end" onclick={submitFiles}>Submit</button>
 		</div>
 	{/if}
 </div>

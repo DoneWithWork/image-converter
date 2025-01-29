@@ -21,7 +21,7 @@ export const GET: RequestHandler = async () => {
 
 		const fileKeys = sessions.flatMap((session) => session.files.map((file) => file.fileKey));
 
-		await prisma.$transaction(async (tx) => {
+		await prisma.$transaction(async () => {
 			// Delete the sessions
 			await prisma.session.deleteMany({
 				where: {
@@ -35,7 +35,7 @@ export const GET: RequestHandler = async () => {
 			if (fileKeys.length > 0) {
 				try {
 					await utapi.deleteFiles(fileKeys);
-				} catch (uploadError) {
+				} catch (_) {
 					throw new Error('Uploadthing failed to delete files');
 				}
 			}

@@ -1,4 +1,3 @@
-import type { FileFormat } from '$lib/types/File';
 import { Award, Cloud, Image, Link, Shield } from 'lucide-svelte';
 
 export const CTA = [
@@ -31,24 +30,34 @@ export const options = [
 	}
 ];
 
-export type InputFileFormat = 'jpg' | 'png';
-type OutputFileFormat = 'jpg' | 'png' | 'webp' | 'gif' | 'bmp' | 'tiff' | 'pdf';
+export const inputFileFormats = ['jpg', 'png'] as const; // Add more formats here
+export type InputFileFormat = (typeof inputFileFormats)[number];
+
+export type OutputFileFormat = 'jpg' | 'png' | 'webp' | 'gif' | 'bmp' | 'tiff' | 'pdf';
 
 const conversionConfig: Record<InputFileFormat, OutputFileFormat[]> = {
 	jpg: ['png', 'webp'],
-	png: ['jpg', 'webp'],
+	png: ['jpg', 'webp']
 };
-
 export function getPossibleConversions(fileType: InputFileFormat | null): OutputFileFormat[] {
 	if (!fileType) return []; // Handle null case
 	return conversionConfig[fileType] || [];
 }
 
+export function isSupportedInput(filename: string): boolean {
+	const fileType = filename.split('.').pop();
+	return fileType !== undefined && inputFileFormats.includes(fileType as InputFileFormat);
+}
+export function returnDefaultOutputFormat(inputFormat: InputFileFormat): OutputFileFormat {
+	return conversionConfig[inputFormat]?.[0];
+}
 
-
-export function returnFileType(filename: string): InputFileFormat | null {
-	console.log(filename)
-	const extension = filename.split('.').pop()?.toLowerCase();
-	console.log(extension)
-	return (extension === 'jpg' || extension === 'png') ? extension : null;
+export function getInputFileFormat(filename: string): InputFileFormat | null {
+	const fileType = filename.split('.').pop()?.toLowerCase();
+	return fileType !== undefined && inputFileFormats.includes(fileType as InputFileFormat)
+		? (fileType as InputFileFormat)
+		: null;
+}
+export function returnOutputFormats(format: InputFileFormat): OutputFileFormat[] {
+	return conversionConfig[format];
 }
