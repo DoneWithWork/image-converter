@@ -1,3 +1,4 @@
+import type { FileFormat } from '$lib/types/File';
 import { Award, Cloud, Image, Link, Shield } from 'lucide-svelte';
 
 export const CTA = [
@@ -29,3 +30,25 @@ export const options = [
 		icon: Link
 	}
 ];
+
+export type InputFileFormat = 'jpg' | 'png';
+type OutputFileFormat = 'jpg' | 'png' | 'webp' | 'gif' | 'bmp' | 'tiff' | 'pdf';
+
+const conversionConfig: Record<InputFileFormat, OutputFileFormat[]> = {
+	jpg: ['png', 'webp'],
+	png: ['jpg', 'webp'],
+};
+
+export function getPossibleConversions(fileType: InputFileFormat | null): OutputFileFormat[] {
+	if (!fileType) return []; // Handle null case
+	return conversionConfig[fileType] || [];
+}
+
+
+
+export function returnFileType(filename: string): InputFileFormat | null {
+	console.log(filename)
+	const extension = filename.split('.').pop()?.toLowerCase();
+	console.log(extension)
+	return (extension === 'jpg' || extension === 'png') ? extension : null;
+}

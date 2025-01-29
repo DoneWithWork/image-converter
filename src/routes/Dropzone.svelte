@@ -15,7 +15,7 @@
 	}}
 >
 	<div class="flex flex-col items-center justify-center space-y-2">
-		<InputForm />
+		<InputForm classNames="rounded-md" />
 		<p class="text-sm text-gray-800">Unlimited File Size (Please don't test this ahah)</p>
 	</div>
 </Button>

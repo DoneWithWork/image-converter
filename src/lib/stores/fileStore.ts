@@ -1,6 +1,7 @@
 // src/stores/files.ts
 import { writable } from 'svelte/store';
 import type { UploadedFile } from '../types/File';
+import { returnFileType } from '$lib/config/config';
 
 export const filesStore = writable<UploadedFile[]>([]);
 
@@ -23,6 +24,7 @@ export function handleFileInput(event: Event | FileList) {
 			for (const file of input.files) {
 				const newFile: UploadedFile = {
 					id: crypto.randomUUID(),
+					type: returnFileType(file.name),
 					name: file.name,
 					size: file.size,
 					source: 'input',
@@ -37,6 +39,7 @@ export function handleFileInput(event: Event | FileList) {
 			const newFile: UploadedFile = {
 				id: crypto.randomUUID(),
 				name: file.name,
+				type: returnFileType(file.name),
 				size: file.size,
 				source: 'input',
 				fileObject: file

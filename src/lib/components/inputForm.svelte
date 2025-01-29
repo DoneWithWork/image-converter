@@ -3,11 +3,16 @@
 	import { options } from '$lib/config/config';
 	import { handleFileInput } from '$lib/stores/fileStore';
 	import type { optionsType } from '$lib/types/File';
+	import { cn } from '$lib/utils';
 	import { ChevronDownIcon, FileUp, Folder } from 'lucide-svelte';
+	const { classNames } = $props();
 </script>
 
 <div
-	class="group relative inline-block cursor-pointer rounded-md bg-blue-400 transition-all duration-500 hover:bg-blue-500"
+	class={cn(
+		'group relative inline-block cursor-pointer rounded-md bg-blue-400 transition-all duration-500 hover:bg-blue-500',
+		classNames
+	)}
 >
 	<Input
 		id="file-input"
