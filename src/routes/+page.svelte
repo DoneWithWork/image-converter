@@ -1,15 +1,17 @@
 <script lang="ts">
-	import Dropzone from './Dropzone.svelte';
-	import Header from './Header.svelte';
-	import { Settings, XCircle } from 'lucide-svelte';
+	import Dropzone from '../lib/components/Dropzone.svelte';
+	import Header from '$lib/components/Header.svelte';
+	import { LoaderCircle, Settings, XCircle } from 'lucide-svelte';
 	import byteSize from 'byte-size';
 	import { filesStore, removeFile, updateOutputFormat } from '$lib/stores/fileStore.js';
 	import Cta from '$lib/components/CTA.svelte';
 	import InputForm from '$lib/components/inputForm.svelte';
 	import { returnOutputFormats, type OutputFileFormat } from '$lib/config/config';
 	import { goto } from '$app/navigation';
-
+	import { setConverted } from '$lib/stores/convertedStore';
+	let isLoading = $state(false);
 	export const submitFiles = async () => {
+		isLoading = true;
 		const formData = new FormData();
 		const metadata: Array<{
 			id: string;
@@ -35,11 +37,14 @@
 			});
 
 			if (!response.ok) throw new Error('Conversion failed');
-
-			await goto('/download/123');
+			const { files } = await response.json();
+			setConverted(files);
+			await goto('/download');
 		} catch (error) {
 			console.error('Upload error:', error);
 			throw error; // Re-throw for error handling in components
+		} finally {
+			isLoading = false;
 		}
 	};
 </script>
@@ -103,7 +108,16 @@
 					</div>
 				{/each}
 			</div>
-			<button class="self-end" onclick={submitFiles}>Submit</button>
+			<button class="self-end" onclick={submitFiles} disabled={isLoading}>
+				{#if isLoading}
+					<div class="flex flex-row items-center gap-2">
+						<LoaderCircle class="size-5  animate-spin" />
+						<span>Converting...</span>
+					</div>
+				{:else}
+					Convert
+				{/if}
+			</button>
 		</div>
 	{/if}
 </div>

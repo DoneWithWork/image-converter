@@ -11,7 +11,7 @@
 			<li>Click on the <strong>"Convert"</strong> button</li>
 		</ol>
 	</div>
-	<div class="mt-10 grid grid-cols-1 gap-5 space-y-3 sm:grid-cols-3">
+	<div class="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-3">
 		{#each CTA as item}
 			<div class="flex flex-col items-center">
 				<item.icon class="mb-5 size-10 font-normal" size={24} />

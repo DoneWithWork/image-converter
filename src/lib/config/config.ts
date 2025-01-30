@@ -4,18 +4,20 @@ export const CTA = [
 	{
 		icon: Image,
 		label: 'Convert Any Image',
-		description: 'Convert any image to any format'
+		description:
+			'Easily convert images to your preferred format in just a few clicks—supporting JPG, PNG, GIF, and more.'
 	},
 	{
 		icon: Shield,
-		label: 'Free and Secure',
+		label: 'Free & Secure',
 		description:
-			"Our image converter is free and secure, we don't store any of your data permanently. We also don't use any third-party services to process your images."
+			'Our converter is 100% free and prioritizes your privacy. All uploaded files are automatically deleted within an hour—no tracking, no data sharing.'
 	},
 	{
 		icon: Award,
-		label: 'Fast and Reliable',
-		description: 'Our image converter is fast and reliable, we process your images in seconds.'
+		label: 'Fast & Reliable',
+		description:
+			'Experience lightning-fast image conversions with high-quality output. No delays, just instant results.'
 	}
 ];
 

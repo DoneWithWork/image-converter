@@ -51,6 +51,7 @@
 		"@uploadthing/svelte": "^7.1.5",
 		"byte-size": "^9.0.1",
 		"googleapis": "^144.0.0",
+		"jszip": "^3.10.1",
 		"nanoid": "^5.0.9",
 		"prisma": "^6.3.0",
 		"sharp": "^0.33.5",

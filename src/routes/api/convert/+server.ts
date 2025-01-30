@@ -4,6 +4,7 @@ import sharp from 'sharp';
 import { nanoid } from 'nanoid';
 import { UTApi } from 'uploadthing/server';
 import type { OutputFileFormat } from '$lib/config/config';
+
 export const POST: RequestHandler = async ({ request }) => {
 	const utapi = new UTApi();
 	try {
@@ -17,48 +18,55 @@ export const POST: RequestHandler = async ({ request }) => {
 			outputFormat: OutputFileFormat;
 		}>;
 
-		prisma.$transaction(async (tx) => {
+		const responseData = await prisma.$transaction(async (tx) => {
 			const newSession = await prisma.session.create({
-				data: {
-					secureId: nanoid()
-				}
+				data: { secureId: nanoid() }
 			});
-			//convert the files
-			//Upon successful conversion, upload to uploadthing, and return the urls,
 
-			const fileKeys = await Promise.all(
+			// Convert the files
+			const fileData = await Promise.all(
 				files.map(async (file, index) => {
 					const { outputFormat } = metadata[index];
 					const arrayBuffer = await file.arrayBuffer();
 					const image = sharp(arrayBuffer);
 
-					// Get image metadata first
-					const imageMetadata = await image.metadata();
-
-					// Process image to buffer
+					// Convert image format
 					const data = await image.toFormat('jpeg').toBuffer();
 
+					// Create a new file blob
 					const blob = new Blob([data], { type: 'image/jpeg' });
-					const uploadFile = new File([blob], 'test.jpeg', { type: blob.type });
+					const uploadFile = new File([blob], file.name, { type: blob.type });
+
+					// Upload to UploadThing
 					const response = await utapi.uploadFiles(uploadFile);
 					if (response.error) {
 						throw new Error('Uploadthing failed');
-					} else {
-						console.log(response.data);
-						return { fileKey: response.data.key, sessionId: newSession.id }; // Return an object with fileKey and sessionId
 					}
+
+					return {
+						name: file.name,
+						type: blob.type,
+						url: response.data.url,
+						fileKey: response.data.key,
+						sessionId: newSession.id
+					};
 				})
 			);
 
-			// Now use the fileKeys to create files in the database
-			const newFiles = await prisma.files.createMany({
-				data: fileKeys.map((fileKey) => ({
-					fileKey: fileKey.fileKey, // Use the correct property
-					sessionId: fileKey.sessionId
+			// Store in DB
+			await prisma.files.createMany({
+				data: fileData.map(({ fileKey, sessionId }) => ({
+					fileKey,
+					sessionId
 				}))
 			});
+
+			console.log(fileData);
+			// Return list of files
+			return fileData.map(({ name, type, url }) => ({ name, type, url }));
 		});
-		return new Response('Successful', { status: 200 });
+
+		return new Response(JSON.stringify({ files: responseData }), { status: 200 });
 	} catch (error) {
 		console.error(error);
 		return new Response('Failed', { status: 500 });

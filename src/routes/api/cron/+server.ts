@@ -4,14 +4,14 @@ import { UTApi } from 'uploadthing/server';
 
 export const GET: RequestHandler = async () => {
 	const utapi = new UTApi();
-	const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000);
+	const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
 
 	try {
 		// Fetch sessions and fileKeys
 		const sessions = await prisma.session.findMany({
 			where: {
 				createdAt: {
-					lt: thirtyMinutesAgo
+					lt: oneHourAgo
 				}
 			},
 			select: {
@@ -26,7 +26,7 @@ export const GET: RequestHandler = async () => {
 			await prisma.session.deleteMany({
 				where: {
 					createdAt: {
-						lt: thirtyMinutesAgo
+						lt: oneHourAgo
 					}
 				}
 			});
@@ -35,7 +35,8 @@ export const GET: RequestHandler = async () => {
 			if (fileKeys.length > 0) {
 				try {
 					await utapi.deleteFiles(fileKeys);
-				} catch (_) {
+				} catch (error) {
+					console.log(error);
 					throw new Error('Uploadthing failed to delete files');
 				}
 			}
