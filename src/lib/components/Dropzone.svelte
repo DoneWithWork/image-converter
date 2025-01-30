@@ -1,7 +1,7 @@
 <script lang="ts">
 	import InputForm from '$lib/components/inputForm.svelte';
-	import { handleFileInput } from '$lib/stores/fileStore.js';
 	import Button from '$lib/components/ui/button/button.svelte';
+	import { handleFileInput } from '$lib/stores/fileStore.js';
 </script>
 
 <Button
@@ -16,6 +16,6 @@
 >
 	<div class="flex flex-col items-center justify-center space-y-2">
 		<InputForm classNames="rounded-md" />
-		<p class="text-sm text-gray-800">Unlimited File Size (Please don't test this ahah)</p>
+		<p class="text-wrap text-sm text-gray-800">Unlimited File Size (Please don't test this ahah)</p>
 	</div>
 </Button>

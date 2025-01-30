@@ -1,11 +1,17 @@
 <script lang="ts">
 	import Input from '$lib/components/ui/input/input.svelte';
-	import { options } from '$lib/config/config';
+
 	import { handleFileInput } from '$lib/stores/fileStore';
-	import type { optionsType } from '$lib/types/File';
+	import type { optionsType } from '$lib/types/types';
 	import { cn } from '$lib/utils';
-	import { ChevronDownIcon, FileUp, Folder } from 'lucide-svelte';
+	import { ChevronDownIcon, FileUp, Folder, Link } from 'lucide-svelte';
+	import Drive from './Drive.svelte';
 	const { classNames } = $props();
+
+	const option: optionsType = {
+		name: 'From URL',
+		icon: Link
+	};
 </script>
 
 <div
@@ -38,35 +44,35 @@
 			/>
 		</div>
 	</div>
-
 	<div
 		class="absolute left-0 mt-[0.5px] hidden w-full rounded-md bg-blue-400 shadow-md group-hover:visible group-hover:block"
 	>
 		<ul class="relative flex flex-col">
-			<label
-				for="file-input"
-				class="flex w-full cursor-pointer flex-row items-center gap-2 border-b-[1px] border-b-gray-300 py-5 pl-3"
-			>
-				<Folder class="size-6 text-white" size={24} />
-				<p class="px-4 text-lg font-semibold text-white">From Device</p>
-			</label>
-			<Input
-				id="file-input"
-				onchange={handleFileInput}
-				required
-				type="file"
-				multiple
-				class="hidden"
-			/>
-
-			{#each options as option (option.name)}
-				{@render dropdown(option)}
-				{@render modal(option.name)}
-			{/each}
+			<!-- Choose from device  -->
+			<div>
+				<label
+					for="file-input"
+					class="flex w-full cursor-pointer flex-row items-center gap-2 border-b-[1px] border-b-gray-300 py-5 pl-3"
+				>
+					<Folder class="size-6 text-white" size={24} />
+					<p class="px-4 text-lg font-semibold text-white">From Device</p>
+				</label>
+				<Input
+					id="file-input"
+					onchange={handleFileInput}
+					required
+					type="file"
+					multiple
+					class="hidden"
+				/>
+			</div>
+			<!-- Google drive selection  -->
+			<Drive />
+			<!-- From Url selection  -->
 		</ul>
 	</div>
 </div>
-
+<!-- 
 {#snippet dropdown(option: optionsType)}
 	<label
 		for={option.name}
@@ -90,4 +96,4 @@
 			</div>
 		</div>
 	</div>
-{/snippet}
+{/snippet} -->

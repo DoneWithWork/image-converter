@@ -1,13 +1,11 @@
 // src/stores/files.ts
-import { writable } from 'svelte/store';
-import type { UploadedFile } from '../types/File';
 import {
 	getInputFileFormat,
 	isSupportedInput,
-	returnDefaultOutputFormat,
-	type InputFileFormat,
-	type OutputFileFormat
+	returnDefaultOutputFormat
 } from '$lib/config/config';
+import { writable } from 'svelte/store';
+import type { InputFileFormat, OutputFileFormat, UploadedFile } from '../types/types';
 
 export const filesStore = writable<UploadedFile[]>([]);
 
@@ -18,7 +16,7 @@ export const updateOutputFormat = (id: string, outputFormat: OutputFileFormat) =
 	filesStore.update((files) =>
 		files.map((file) => (file.id === id ? { ...file, outputFormat } : file))
 	);
-	console.log('Changed file format');
+
 };
 
 export const removeFile = (id: string) => {
@@ -35,7 +33,9 @@ export function handleFileInput(event: Event | FileList) {
 	if (!files) return;
 
 	for (const file of files) {
-		if (!isSupportedInput(file.name)) {
+
+		// Ensure type is supported by us
+		if (!isSupportedInput(file.type)) {
 			return alert(`File: ${file.name} is unsupported`);
 		} else {
 			// Impossible for file type to be null as have already checked for non-null

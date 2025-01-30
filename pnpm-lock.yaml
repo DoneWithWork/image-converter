@@ -8,12 +8,18 @@ importers:
 
   .:
     dependencies:
+      '@googleapis/drive':
+        specifier: ^8.14.0
+        version: 8.14.0
       '@prisma/client':
         specifier: ^6.3.0
         version: 6.3.0(prisma@6.3.0(typescript@5.7.3))(typescript@5.7.3)
       '@types/byte-size':
         specifier: ^8.1.2
         version: 8.1.2
+      '@types/mime-types':
+        specifier: ^2.1.4
+        version: 2.1.4
       '@uploadthing/svelte':
         specifier: ^7.1.5
         version: 7.1.5(svelte@5.19.5)(uploadthing@7.4.4(tailwindcss@3.4.17))
@@ -26,6 +32,9 @@ importers:
       jszip:
         specifier: ^3.10.1
         version: 3.10.1
+      mime-types:
+        specifier: ^2.1.35
+        version: 2.1.35
       nanoid:
         specifier: ^5.0.9
         version: 5.0.9
@@ -75,6 +84,9 @@ importers:
       '@tailwindcss/typography':
         specifier: ^0.5.16
         version: 0.5.16(tailwindcss@3.4.17)
+      '@types/google.picker':
+        specifier: ^0.0.49
+        version: 0.0.49
       '@types/node':
         specifier: ^22.12.0
         version: 22.12.0
@@ -375,6 +387,10 @@ packages:
   '@gcornut/valibot-json-schema@0.31.0':
     resolution: {integrity: sha512-3xGptCurm23e7nuPQkdrE5rEs1FeTPHhAUsBuwwqG4/YeZLwJOoYZv+fmsppUEfo5y9lzUwNQrNqLS/q7HMc7g==}
     hasBin: true
+
+  '@googleapis/drive@8.14.0':
+    resolution: {integrity: sha512-AOokfpP6pCdcJXWA8khaCEgbGpWYavWTdAAhL4idbbf2VCQcJ2f7vPalAYNu6a4Sfj0Ly4Ehnd1xw9J9TixB1A==}
+    engines: {node: '>=12.0.0'}
 
   '@hapi/hoek@9.3.0':
     resolution: {integrity: sha512-/c6rf4UJlmHlC9b5BaNvzAcFv7HZ2QHaV0D4/HNlBdvFnvQq8RI4kYdhyPCl7Xj+oWvTWQ8ujhqS53LIgAe6KQ==}
@@ -771,8 +787,14 @@ packages:
   '@types/estree@1.0.6':
     resolution: {integrity: sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw==}
 
+  '@types/google.picker@0.0.49':
+    resolution: {integrity: sha512-3zsvP7kEMrPfgDnc4TQ8CuTQsojfD5f793WW65NS0q+79i70CRZ3J4hPWoKjzrJ+toIdy1727IdlxVsAvpkOFg==}
+
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
+
+  '@types/mime-types@2.1.4':
+    resolution: {integrity: sha512-lfU4b34HOri+kAY5UheuFMWPDOI+OPceBSHZKp69gEyTL/mmJ4cnU6Y/rlme3UL3GyOn6Y42hyIEw0/q8sWx5w==}
 
   '@types/node@22.12.0':
     resolution: {integrity: sha512-Fll2FZ1riMjNmlmJOdAyY5pUbkftXslB5DgEzlIuNaiWhXd00FhWxVC/r4yV/4wBb9JfImTu+jiSvXTkJ7F/gA==}
@@ -1613,6 +1635,14 @@ packages:
   micromatch@4.0.8:
     resolution: {integrity: sha512-PXwfBhYu0hBCPw8Dn0E+WDYb7af3dSLVWKi3HGv84IdF4TyFoC0ysxFd0Goxw7nSv4T/PzEJQxsYsEiFCKo2BA==}
     engines: {node: '>=8.6'}
+
+  mime-db@1.52.0:
+    resolution: {integrity: sha512-sPU4uV7dYlvtWJxwwxHD0PuihVNiE7TyAbQ5SWxDCB9mUYvOgroQOwYQQOKPJ8CIbE+1ETVlOoK1UC2nU3gYvg==}
+    engines: {node: '>= 0.6'}
+
+  mime-types@2.1.35:
+    resolution: {integrity: sha512-ZDY+bPm5zTTF+YpCrAU9nK0UgICYPT0QtT1NZWFv4s++TNkcgVaT0g6+4R2uI4MjQjzysHB1zxuWL50hzaeXiw==}
+    engines: {node: '>= 0.6'}
 
   mini-svg-data-uri@1.4.4:
     resolution: {integrity: sha512-r9deDe9p5FJUPZAk3A59wGH7Ii9YrjjWw0jmw/liSbHl2CHiyXj6FcDXDu2K3TjVAXqiJdaw3xxwlZZr9E6nHg==}
@@ -2571,6 +2601,13 @@ snapshots:
       esbuild-runner: 2.2.2(esbuild@0.24.2)
     optional: true
 
+  '@googleapis/drive@8.14.0':
+    dependencies:
+      googleapis-common: 7.2.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+
   '@hapi/hoek@9.3.0':
     optional: true
 
@@ -2928,7 +2965,11 @@ snapshots:
 
   '@types/estree@1.0.6': {}
 
+  '@types/google.picker@0.0.49': {}
+
   '@types/json-schema@7.0.15': {}
+
+  '@types/mime-types@2.1.4': {}
 
   '@types/node@22.12.0':
     dependencies:
@@ -3869,6 +3910,12 @@ snapshots:
     dependencies:
       braces: 3.0.3
       picomatch: 2.3.1
+
+  mime-db@1.52.0: {}
+
+  mime-types@2.1.35:
+    dependencies:
+      mime-db: 1.52.0
 
   mini-svg-data-uri@1.4.4: {}
 

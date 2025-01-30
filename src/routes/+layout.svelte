@@ -9,14 +9,12 @@
 	let progress = $state(0);
 	onMount(() => {
 		beforeNavigate(() => {
-			console.log('beforeNavigate');
 			loading = true;
 			hidden = false;
 			progress = 0;
 			incrementProgress();
 		});
 		afterNavigate(() => {
-			console.log('afterNavigate');
 			progress = 100;
 			setTimeout(() => {
 				loading = false;
@@ -40,9 +38,11 @@
 	style="width: {progress}%"
 ></div>
 <Navbar />
-<div class="mx-auto mt-5 h-screen w-full max-w-6xl px-3">{@render children()}</div>
-<footer class="mt-10 border-t border-gray-200 py-6">
-	<div class="flex justify-center">
-		<p class="text-sm text-gray-600">© 2025 DoneWithWork. All rights reserved.</p>
-	</div>
-</footer>
+<div class="flex min-h-screen flex-col">
+	<div class="mx-auto mt-5 w-full max-w-6xl flex-grow px-3">{@render children()}</div>
+	<footer class="mt-10 border-t border-gray-200 py-6">
+		<div class="flex justify-center">
+			<p class="text-sm text-gray-600">© 2025 DoneWithWork. All rights reserved.</p>
+		</div>
+	</footer>
+</div>
