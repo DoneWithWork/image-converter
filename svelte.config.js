@@ -10,7 +10,7 @@ const config = {
 
 	kit: {
 		adapter: adapter({
-			maxDuration: '30'
+			maxDuration: 30
 		})
 	}
 };
