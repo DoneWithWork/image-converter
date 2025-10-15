@@ -61,7 +61,7 @@
 		"sharp": "^0.33.5",
 		"simple-icons": "^14.4.0",
 		"svelte-file-dropzone": "^2.0.9",
-		"sveltekit-superforms": "^2.23.1",
+		"sveltekit-superforms": "^2.27.4",
 		"uploadthing": "^7.4.4",
 		"zod": "^3.24.1"
 	}
